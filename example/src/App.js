@@ -3,32 +3,13 @@ import React from 'react'
 import { ReactVideoPlayer } from 'video-player-for-react'
 import 'video-player-for-react/dist/index.css'
 
-// const videoURL =
-// 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
-const videoURL =
-  'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4'
-// const videoPoster =
-// 'https://images.anandtech.com/doci/10729/ChromecastLaunch.jpg'
-const videoPoster =
-  'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg'
-
-// const captions = [
-//   {
-//     kind: 'captions',
-//     label: 'English',
-//     srcLang: 'en',
-//     src:
-//       'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt'
-//   }
-// ]
-
 const App = () => {
   return (
     <ReactVideoPlayer
       width='928px'
-      url={videoURL}
+      url='https://vod-progressive.akamaized.net/exp=1608200223~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F3602%2F14%2F368010126%2F1522081533.mp4~hmac=31a584e5e3cb2360347c9193602d18885678c0fd7df8af24bb40b6b4d9f7dff3/vimeo-prod-skyfire-std-us/01/3602/14/368010126/1522081533.mp4?download=1&filename=video.mp4#t=0.1'
       type='video/mp4'
-      poster={videoPoster}
+      // poster='poster_url'
       // captions={captions}
     />
   )

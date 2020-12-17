@@ -10,8 +10,6 @@ import {
   MdFullscreenExit
 } from 'react-icons/md'
 
-import ParseToTime from '../utils/parseToTime'
-
 function PlayerControls({
   toggleVideoPlay,
   playerStatus,
