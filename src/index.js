@@ -8,7 +8,6 @@ import ParseToTime from './utils/parseToTime'
 import './styles.css'
 
 let mouseIsPressed = false
-const defaultWidth = document.querySelector('html').offsetWidth * 0.6 + 'px'
 
 function usePlayerState($videoPlayer) {
   const [playerStatus, setPlayerStatus] = useState({
@@ -224,7 +223,7 @@ export const ReactVideoPlayer = ({
         <video
           crossOrigin='true'
           preload='metadata'
-          width={width || defaultWidth}
+          width={width || '928px'}
           height={height || undefined}
           ref={$videoPlayer}
           onTimeUpdate={handleTimeUpdate}
