@@ -1,6 +1,6 @@
 {
   "name": "video-player-for-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a react video player component base",
   "author": "victoralvesf",
   "license": "MIT",
@@ -27,6 +27,9 @@
     "react": "^16.0.0",
     "react-icons": "^4.1.0"
   },
+  "dependencies": {
+    "react-icons": "^4.1.0"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
@@ -46,7 +49,6 @@
     "prettier": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-icons": "^4.1.0",
     "react-scripts": "^3.4.1"
   },
   "files": [
