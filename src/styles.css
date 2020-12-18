@@ -206,12 +206,14 @@
   margin-left: 5px;
 }
 
-.vpfr_time_progress_bar {
+.vpfr_time_progress_bar,
+.vpfr_volume_progress_bar {
   width: 100%;
   padding: 5px 0px;
 }
 
-.vpfr_time_progress_fields {
+.vpfr_time_progress_fields,
+.vpfr_volume_progress_fields {
   position: relative;
   width: 100%;
   display: flex;
@@ -219,26 +221,35 @@
   align-items: center;
 }
 
-.vpfr_time_progress_back::-webkit-progress-value {
-  background: #ff3e41;
-  border-radius: 4px;
+.vpfr_volume_progress_fields {
+  max-width: 140px;
+  min-width: 100px;
 }
 
-.vpfr_time_progress_back::-webkit-progress-bar {
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.5);
-  height: 5px;
-}
-
-.vpfr_time_progress_back {
-  -webkit-appearance: none;
+.vpfr_time_progress_back,
+.vpfr_volume_progress_back {
   position: absolute;
   height: 5px;
   width: calc(100% - 4px);
+}
+
+.vpfr_player_controls progress {
+  -webkit-appearance: none;
   border: none;
   border-radius: 3px;
   background: none;
   z-index: 99;
+}
+
+.vpfr_player_controls progress::-webkit-progress-value {
+  background: #ff3e41;
+  border-radius: 4px;
+}
+
+.vpfr_player_controls progress::-webkit-progress-bar {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  height: 5px;
 }
 
 .vpfr_player_controls input[type='range'] {

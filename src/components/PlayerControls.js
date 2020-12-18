@@ -19,7 +19,8 @@ function PlayerControls({
   handleFullscreen,
   handlePictureInPicture,
   showCaptions,
-  handleMuteVolume
+  handleMuteVolume,
+  handleVolumeChange
 }) {
   function handleProgressBar() {
     if (playerStatus.currentPercentage < 40) {
@@ -27,6 +28,10 @@ function PlayerControls({
     } else {
       return playerStatus.currentPercentage - 0.5
     }
+  }
+
+  function handleVolumeBar() {
+    return playerStatus.isMuted ? 0 : playerStatus.volume
   }
 
   return (
@@ -99,7 +104,22 @@ function PlayerControls({
               />
             )}
           </button>
-          <input type='range' min='0' max='100' />
+
+          <div className='vpfr_volume_progress_fields'>
+            <progress
+              className='vpfr_volume_progress_back'
+              max='100'
+              value={handleVolumeBar()}
+            />
+            <input
+              className='vpfr_volume_progress_bar'
+              type='range'
+              min='0'
+              max='100'
+              value={handleVolumeBar()}
+              onChange={handleVolumeChange}
+            />
+          </div>
         </div>
 
         {showCaptions && (

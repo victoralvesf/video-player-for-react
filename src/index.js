@@ -20,12 +20,44 @@ function usePlayerState($videoPlayer) {
     durationTime: '00:00',
     isFullscreen: false,
     isPIP: false,
-    isMuted: false
+    isMuted: false,
+    volume: 100
   })
 
   useEffect(() => {
     playerStatus.playing ? playAndPause('play') : playAndPause('pause')
   }, [$videoPlayer, playerStatus.playing])
+
+  useEffect(() => {
+    if (playerStatus.isMuted) {
+      setPlayerVolume(0)
+    } else if (!playerStatus.isMuted && playerStatus.volume === 0) {
+      setPlayerStatus({
+        ...playerStatus,
+        volume: 100
+      })
+    } else {
+      setPlayerVolume(playerStatus.volume)
+    }
+  }, [$videoPlayer, playerStatus.isMuted])
+
+  useEffect(() => {
+    if (playerStatus.volume > 0) {
+      if (playerStatus.isMuted) {
+        setPlayerStatus({
+          ...playerStatus,
+          isMuted: false
+        })
+      }
+
+      setPlayerVolume(playerStatus.volume)
+    } else {
+      setPlayerStatus({
+        ...playerStatus,
+        isMuted: true
+      })
+    }
+  }, [$videoPlayer, playerStatus.volume])
 
   function playAndPause(status) {
     $videoPlayer.current[status]()
@@ -151,16 +183,23 @@ function usePlayerState($videoPlayer) {
   }
 
   function handleMuteVolume() {
-    if (playerStatus.isMuted) {
-      $videoPlayer.current.volume = 1
-    } else {
-      $videoPlayer.current.volume = 0
-    }
-
     setPlayerStatus({
       ...playerStatus,
       isMuted: !playerStatus.isMuted
     })
+  }
+
+  function handleVolumeChange(event) {
+    const volume = Number(event.target.value)
+
+    setPlayerStatus({
+      ...playerStatus,
+      volume: volume
+    })
+  }
+
+  function setPlayerVolume(volume) {
+    $videoPlayer.current.volume = volume / 100
   }
 
   return {
@@ -176,7 +215,8 @@ function usePlayerState($videoPlayer) {
     handleFullscreen,
     handlePictureInPicture,
     handleOnPlayAndPause,
-    handleMuteVolume
+    handleMuteVolume,
+    handleVolumeChange
   }
 }
 
@@ -202,7 +242,8 @@ export const ReactVideoPlayer = ({
     handleFullscreen,
     handlePictureInPicture,
     handleOnPlayAndPause,
-    handleMuteVolume
+    handleMuteVolume,
+    handleVolumeChange
   } = usePlayerState($videoPlayer)
 
   const tracks =
@@ -234,6 +275,7 @@ export const ReactVideoPlayer = ({
         handlePictureInPicture={handlePictureInPicture}
         showCaptions={captions}
         handleMuteVolume={handleMuteVolume}
+        handleVolumeChange={handleVolumeChange}
       />
 
       <div className='vpfr_video_wrapper'>
@@ -252,8 +294,9 @@ export const ReactVideoPlayer = ({
           poster={poster || 'none'}
         >
           <source src={url} type={type} />
-          {tracks}
+          {captions && tracks}
         </video>
+
         {poster && (
           <div
             className='vpfr_video_poster_image'
