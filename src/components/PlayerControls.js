@@ -3,7 +3,7 @@ import {
   MdPlayArrow,
   MdPause,
   MdVolumeUp,
-  // MdVolumeOff,
+  MdVolumeOff,
   MdSubtitles,
   MdOpenInNew,
   MdFullscreen,
@@ -18,11 +18,15 @@ function PlayerControls({
   handleInputMouseUp,
   handleFullscreen,
   handlePictureInPicture,
-  showCaptions
+  showCaptions,
+  handleMuteVolume
 }) {
   function handleProgressBar() {
-    // prettier-ignore
-    return `linear-gradient(90deg, rgba(255,62,65,1) 0%, rgba(255,62,65,1) ${playerStatus.currentPercentage + 0.15}%, rgba(255, 255, 255, 0.5) ${playerStatus.currentPercentage + 0.15}%, rgba(255, 255, 255, 0.5) 100%)`
+    if (playerStatus.currentPercentage < 40) {
+      return playerStatus.currentPercentage + 1.25
+    } else {
+      return playerStatus.currentPercentage - 0.5
+    }
   }
 
   return (
@@ -51,34 +55,49 @@ function PlayerControls({
         <div className='vpfr_player_item vpfr_time_progress'>
           <div className='vpfr_timers'>{playerStatus.currentTime}</div>
 
-          <input
-            type='range'
-            min='0'
-            max='100'
-            className='vpfr_time_progress_bar'
-            onMouseDown={handleInputMouseDown}
-            onChange={handleChangePercentage}
-            onMouseUp={handleInputMouseUp}
-            value={playerStatus.currentPercentage}
-            role='slider'
-            aria-label='Seek'
-            aria-valuemin='0'
-            aria-valuemax={playerStatus.duration}
-            aria-valuenow={playerStatus.currentTimeUpdate}
-            style={{ background: handleProgressBar() }}
-          />
+          <div className='vpfr_time_progress_fields'>
+            <progress
+              className='vpfr_time_progress_back'
+              max='100'
+              value={handleProgressBar()}
+            />
+            <input
+              type='range'
+              min='0'
+              max='100'
+              className='vpfr_time_progress_bar'
+              onMouseDown={handleInputMouseDown}
+              onChange={handleChangePercentage}
+              onMouseUp={handleInputMouseUp}
+              value={playerStatus.currentPercentage}
+              role='slider'
+              aria-label='Seek'
+              aria-valuemin='0'
+              aria-valuemax={playerStatus.duration}
+              aria-valuenow={playerStatus.currentTimeSeconds}
+            />
+          </div>
 
           <div className='vpfr_timers'>{playerStatus.durationTime}</div>
         </div>
 
         <div className='vpfr_player_item vpfr_volume'>
-          <button>
-            <MdVolumeUp
-              aria-hidden='true'
-              focusable='false'
-              size={22}
-              style={{ padding: '7px' }}
-            />
+          <button onClick={handleMuteVolume}>
+            {playerStatus.isMuted ? (
+              <MdVolumeOff
+                aria-hidden='true'
+                focusable='false'
+                size={22}
+                style={{ padding: '7px' }}
+              />
+            ) : (
+              <MdVolumeUp
+                aria-hidden='true'
+                focusable='false'
+                size={22}
+                style={{ padding: '7px' }}
+              />
+            )}
           </button>
           <input type='range' min='0' max='100' />
         </div>

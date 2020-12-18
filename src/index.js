@@ -19,7 +19,8 @@ function usePlayerState($videoPlayer) {
     currentTime: '00:00',
     durationTime: '00:00',
     isFullscreen: false,
-    isPIP: false
+    isPIP: false,
+    isMuted: false
   })
 
   useEffect(() => {
@@ -149,6 +150,19 @@ function usePlayerState($videoPlayer) {
     })
   }
 
+  function handleMuteVolume() {
+    if (playerStatus.isMuted) {
+      $videoPlayer.current.volume = 1
+    } else {
+      $videoPlayer.current.volume = 0
+    }
+
+    setPlayerStatus({
+      ...playerStatus,
+      isMuted: !playerStatus.isMuted
+    })
+  }
+
   return {
     playerStatus,
     toggleVideoPlay,
@@ -161,7 +175,8 @@ function usePlayerState($videoPlayer) {
     handleDurationChange,
     handleFullscreen,
     handlePictureInPicture,
-    handleOnPlayAndPause
+    handleOnPlayAndPause,
+    handleMuteVolume
   }
 }
 
@@ -186,7 +201,8 @@ export const ReactVideoPlayer = ({
     handleDurationChange,
     handleFullscreen,
     handlePictureInPicture,
-    handleOnPlayAndPause
+    handleOnPlayAndPause,
+    handleMuteVolume
   } = usePlayerState($videoPlayer)
 
   const tracks =
@@ -217,6 +233,7 @@ export const ReactVideoPlayer = ({
         handleFullscreen={handleFullscreen}
         handlePictureInPicture={handlePictureInPicture}
         showCaptions={captions}
+        handleMuteVolume={handleMuteVolume}
       />
 
       <div className='vpfr_video_wrapper'>
