@@ -221,9 +221,11 @@
   align-items: center;
 }
 
+.vpfr_volume_progress_back,
 .vpfr_volume_progress_fields {
   max-width: 140px;
-  min-width: 100px;
+  min-width: 0px;
+  padding: 0px 5px;
 }
 
 .vpfr_time_progress_back,
@@ -235,7 +237,10 @@
 
 .vpfr_player_controls progress {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border: none;
+  height: 5px;
   border-radius: 3px;
   background: none;
   z-index: 99;
@@ -254,8 +259,9 @@
 
 .vpfr_player_controls input[type='range'] {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   height: 5px;
-  /* background: rgba(255, 255, 255, 0.5); */
   background: transparent;
   border-radius: 3px;
   cursor: pointer;
@@ -264,7 +270,29 @@
   z-index: 100;
 }
 
+.vpfr_player_controls input[type='range']::-moz-range-progress {
+  background: #ff3e41;
+  height: 5px;
+  border-radius: 4px;
+}
+
+.vpfr_player_controls input[type='range']::-moz-range-track {
+  background: rgba(255, 255, 255, 0.5);
+  height: 5px;
+  border-radius: 6px;
+}
+
+.vpfr_player_controls input[type='range']::-ms-track {
+  width: 100%;
+  cursor: pointer;
+
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
 .vpfr_player_controls input[type='range']::-webkit-slider-thumb {
+  appearance: none;
   -webkit-appearance: none;
   width: 12px;
   height: 12px;
@@ -275,6 +303,24 @@
   position: relative;
 }
 
-.vpfr_player_controls input[type='range']::-moz-range-progress {
-  background: red;
+.vpfr_player_controls input[type='range']::-moz-range-thumb {
+  -moz-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #eee;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 101;
+  position: relative;
+}
+
+.vpfr_player_controls input[type='range']::-ms-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #eee;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 101;
+  position: relative;
 }
