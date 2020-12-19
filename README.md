@@ -17,11 +17,12 @@
 | Enter Picture-In-Picture mode | :heavy_check_mark: |
 | Click on video to Play/Pause  | :heavy_check_mark: |
 | Overlay play button           | :heavy_check_mark: |
-| Mute                          | :x:                |
-| Ajust volume                  | :x:                |
-| Enter in fullscreen mode      | :x:                |
+| Mute                          | :heavy_check_mark: |
+| Adjust volume                 | :heavy_check_mark: |
+| Fullscreen mode               | :x:                |
 | Select subtitles              | :x:                |
 | Show subtitles                | :x:                |
+| Playback rate                 | :x:                |
 
 ## Install
 
