@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
+import { isIE, isFirefox, isOpera } from 'react-device-detect'
 import {
   MdPlayArrow,
   MdPause,
@@ -22,6 +23,12 @@ function PlayerControls({
   handleMuteVolume,
   handleVolumeChange
 }) {
+  const [pictureInPictureSupport, setPictureInPictureSupport] = useState(true)
+
+  useEffect(() => {
+    setPictureInPictureSupport(!(isIE || isFirefox || isOpera))
+  }, [])
+
   function handleProgressBar() {
     if (playerStatus.currentPercentage < 40) {
       return playerStatus.currentPercentage + 1.25
@@ -135,16 +142,18 @@ function PlayerControls({
           </div>
         )}
 
-        <div className='vpfr_player_item vpfr_picture_in_picture'>
-          <button onClick={handlePictureInPicture}>
-            <MdOpenInNew
-              aria-hidden='true'
-              focusable='false'
-              size={22}
-              style={{ padding: '7px' }}
-            />
-          </button>
-        </div>
+        {pictureInPictureSupport && (
+          <div className='vpfr_player_item vpfr_picture_in_picture'>
+            <button onClick={handlePictureInPicture}>
+              <MdOpenInNew
+                aria-hidden='true'
+                focusable='false'
+                size={22}
+                style={{ padding: '7px' }}
+              />
+            </button>
+          </div>
+        )}
 
         <div className='vpfr_player_item vpfr_fullscreen'>
           <button onClick={handleFullscreen}>
