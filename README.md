@@ -19,7 +19,7 @@
 | Overlay play button           | :heavy_check_mark: |
 | Mute                          | :heavy_check_mark: |
 | Adjust volume                 | :heavy_check_mark: |
-| Fullscreen mode               | :x:                |
+| Fullscreen mode               | :heavy_check_mark: |
 | Select subtitles              | :x:                |
 | Show subtitles                | :x:                |
 | Playback rate                 | :x:                |
@@ -32,7 +32,7 @@ npm install --save video-player-for-react
 
 ## CodeSandbox demo
 
-![https://codesandbox.io/s/video-player-for-react](https://codesandbox.io/s/video-player-for-react-9lc1q?file=/src/App.js:319-594)
+[https://codesandbox.io/s/video-player-for-react](https://codesandbox.io/s/video-player-for-react-9lc1q)
 
 ## Getting started
 

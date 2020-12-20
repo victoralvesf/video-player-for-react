@@ -1,7 +1,7 @@
-import { ExampleComponent } from '.'
+import { ReactVideoPlayer } from '.'
 
 describe('ExampleComponent', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(ReactVideoPlayer).toBeTruthy()
   })
 })

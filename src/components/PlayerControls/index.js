@@ -17,7 +17,7 @@ function PlayerControls({
   handleChangePercentage,
   handleInputMouseDown,
   handleInputMouseUp,
-  handleFullscreen,
+  toggleFullscreen,
   handlePictureInPicture,
   showCaptions,
   handleMuteVolume,
@@ -28,14 +28,6 @@ function PlayerControls({
   useEffect(() => {
     setPictureInPictureSupport(!(isIE || isFirefox || isOpera))
   }, [])
-
-  function handleProgressBar() {
-    if (playerStatus.currentPercentage < 40) {
-      return playerStatus.currentPercentage + 1.25
-    } else {
-      return playerStatus.currentPercentage - 0.5
-    }
-  }
 
   function handleVolumeBar() {
     return playerStatus.isMuted ? 0 : playerStatus.volume
@@ -68,15 +60,16 @@ function PlayerControls({
           <div className='vpfr_timers'>{playerStatus.currentTime}</div>
 
           <div className='vpfr_time_progress_fields'>
-            <progress
+            {/* <progress
               className='vpfr_time_progress_back'
               max='100'
-              value={handleProgressBar()}
-            />
+              value={playerStatus.currentPercentage}
+            /> */}
             <input
               type='range'
               min='0'
               max='100'
+              step='0.01'
               className='vpfr_time_progress_bar'
               onMouseDown={handleInputMouseDown}
               onChange={handleChangePercentage}
@@ -84,9 +77,9 @@ function PlayerControls({
               value={playerStatus.currentPercentage}
               role='slider'
               aria-label='Seek'
-              aria-valuemin='0'
-              aria-valuemax={playerStatus.duration}
-              aria-valuenow={playerStatus.currentTimeSeconds}
+              style={{
+                '--progress': `${playerStatus.currentPercentage}%`
+              }}
             />
           </div>
 
@@ -113,11 +106,6 @@ function PlayerControls({
           </button>
 
           <div className='vpfr_volume_progress_fields'>
-            <progress
-              className='vpfr_volume_progress_back'
-              max='100'
-              value={handleVolumeBar()}
-            />
             <input
               className='vpfr_volume_progress_bar'
               type='range'
@@ -125,6 +113,7 @@ function PlayerControls({
               max='100'
               value={handleVolumeBar()}
               onChange={handleVolumeChange}
+              style={{ '--progress': `${handleVolumeBar()}%` }}
             />
           </div>
         </div>
@@ -156,7 +145,7 @@ function PlayerControls({
         )}
 
         <div className='vpfr_player_item vpfr_fullscreen'>
-          <button onClick={handleFullscreen}>
+          <button onClick={toggleFullscreen}>
             {playerStatus.isFullscreen ? (
               <MdFullscreenExit aria-hidden='true' focusable='false' />
             ) : (
@@ -167,8 +156,6 @@ function PlayerControls({
       </div>
 
       <div className='vpfr_play_pause_on_click' onClick={toggleVideoPlay} />
-
-      <div className='vpfr_player_controls_shadow' />
     </Fragment>
   )
 }

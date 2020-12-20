@@ -4,12 +4,16 @@ import PlayerControls from './components/PlayerControls'
 import OverlayPlayButton from './components/OverlayPlayButton'
 
 import ParseToTime from './utils/parseToTime'
+import {
+  checkFullscreen,
+  triggerFullscreen
+} from './utils/handleFullscreenHelper'
 
 import './styles.css'
 
 let mouseIsPressed = false
 
-function usePlayerState($videoPlayer) {
+function usePlayerState($videoPlayer, $videoContainer) {
   const [playerStatus, setPlayerStatus] = useState({
     playing: false,
     stopped: true,
@@ -155,12 +159,26 @@ function usePlayerState($videoPlayer) {
     })
   }
 
-  function handleFullscreen() {
+  function handleFullscreenChange() {
+    const fullscreen = checkFullscreen()
+
     setPlayerStatus({
       ...playerStatus,
-      isFullscreen: !playerStatus.isFullscreen
+      isFullscreen: fullscreen
     })
   }
+
+  function toggleFullscreen() {
+    triggerFullscreen($videoContainer, playerStatus.isFullscreen)
+  }
+
+  useEffect(() => {
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange)
+    document.addEventListener('msfullscreenchange', handleFullscreenChange)
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange)
+    document.addEventListener('fullscreenchange', handleFullscreenChange, false)
+  }, [])
 
   async function handlePictureInPicture() {
     try {
@@ -212,7 +230,7 @@ function usePlayerState($videoPlayer) {
     handleResetVideo,
     isPlayerStopped,
     handleDurationChange,
-    handleFullscreen,
+    toggleFullscreen,
     handlePictureInPicture,
     handleOnPlayAndPause,
     handleMuteVolume,
@@ -229,6 +247,8 @@ export const ReactVideoPlayer = ({
   captions
 }) => {
   const $videoPlayer = useRef(null)
+  const $videoContainer = useRef(null)
+
   const {
     playerStatus,
     toggleVideoPlay,
@@ -239,12 +259,12 @@ export const ReactVideoPlayer = ({
     handleResetVideo,
     isPlayerStopped,
     handleDurationChange,
-    handleFullscreen,
+    toggleFullscreen,
     handlePictureInPicture,
     handleOnPlayAndPause,
     handleMuteVolume,
     handleVolumeChange
-  } = usePlayerState($videoPlayer)
+  } = usePlayerState($videoPlayer, $videoContainer)
 
   const tracks =
     captions &&
@@ -261,9 +281,8 @@ export const ReactVideoPlayer = ({
   return (
     <div
       tabIndex='0'
-      className={`vpfr_container ${isPlayerStopped()} ${
-        playerStatus.isFullscreen && 'vdfr_fullscreen'
-      }`}
+      className={`vpfr_container ${isPlayerStopped()}`}
+      ref={$videoContainer}
     >
       <PlayerControls
         toggleVideoPlay={toggleVideoPlay}
@@ -271,7 +290,7 @@ export const ReactVideoPlayer = ({
         handleChangePercentage={handleChangePercentage}
         handleInputMouseDown={handleInputMouseDown}
         handleInputMouseUp={handleInputMouseUp}
-        handleFullscreen={handleFullscreen}
+        toggleFullscreen={toggleFullscreen}
         handlePictureInPicture={handlePictureInPicture}
         showCaptions={captions}
         handleMuteVolume={handleMuteVolume}
@@ -280,9 +299,10 @@ export const ReactVideoPlayer = ({
 
       <div className='vpfr_video_wrapper'>
         <video
+          controls={false}
           crossOrigin='true'
           preload='metadata'
-          width={width || '928px'}
+          width={!playerStatus.isFullscreen && width}
           height={height || undefined}
           ref={$videoPlayer}
           onTimeUpdate={handleTimeUpdate}
@@ -305,9 +325,11 @@ export const ReactVideoPlayer = ({
         )}
       </div>
 
-      {/* <div className='vpfr_video_captions'>
-        <span className='vpfr_caption_text'>Exemplo de legenda</span>
-      </div> */}
+      {captions && (
+        <div className='vpfr_video_captions'>
+          <span className='vpfr_caption_text'>Exemplo de legenda</span>
+        </div>
+      )}
 
       <OverlayPlayButton
         toggleVideoPlay={toggleVideoPlay}
